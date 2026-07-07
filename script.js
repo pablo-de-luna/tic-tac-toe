@@ -13,6 +13,9 @@ const gameboard = (() => {
     [0, 0, 0]
   ];
 
+  const player1 = createPlayer("player1", "O");
+  const player2 = createPlayer("player2", "X");
+
   const getBoard = () => board;
 
   return {getBoard, };
