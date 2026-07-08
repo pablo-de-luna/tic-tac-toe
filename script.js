@@ -23,11 +23,9 @@ const gameboard = (() => {
   ];
 
   const getBoard = () => board;
-
   const addPlayerMark = (player, row, column) => {
     board[row][column] = player.mark;
   };
-
   const restartBoard = () => board.forEach(row => row.fill(""));
 
   return {getBoard, addPlayerMark, restartBoard};
@@ -35,13 +33,13 @@ const gameboard = (() => {
 
 const gameflow = (() => {
   const {player1, player2} = createPlayers("Pablo", "Dutch");
+  let currentPlayer = player1;
 
-  gameboard.addPlayerMark(player1, 1, 2);
-
-  console.table(gameboard.getBoard());
-
-  //player 1 turn
-  //switch to next
-  //player 2 turn
-  //loop that until winning condition
+  const playTurn = (row, column) => {
+    gameboard.addPlayerMark(currentPlayer, row, column);
+    currentPlayer = (currentPlayer === player1) ? player2 : player1; 
+  };
+  
+  return {playTurn};
 })();
+
