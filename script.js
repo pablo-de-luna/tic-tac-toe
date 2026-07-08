@@ -24,18 +24,20 @@ const gameboard = (() => {
 
   const getBoard = () => board;
 
-  const restartBoard = () => {
-    for (let i = 0; i <= 2; i++) {
-      for (let j = 0; j <= 2; j++) {
-        board[i][j] = "";
-      }
-    }
+  const addPlayerMark = (player, row, column) => {
+    board[row][column] = player.mark;
   };
 
-  return {getBoard, restartBoard};
+  const restartBoard = () => board.forEach(row => row.fill(""));
+
+  return {getBoard, addPlayerMark, restartBoard};
 })();
 
 const gameflow = (() => {
+  const {player1, player2} = createPlayers("Pablo", "Dutch");
+
+  gameboard.addPlayerMark(player1, 1, 2);
+
   console.table(gameboard.getBoard());
 
   //player 1 turn
