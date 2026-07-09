@@ -62,15 +62,14 @@ const gameControl = (() => {
     };
 
     const checkForVerticalWin = () => {
-      const columns = [0, 1, 2]
+      const columns = [0, 1, 2];
       // Check if SOME column have EVERY row space marked with equal player mark
-      columns.some(col => {
-        board.every(row => (board[row][col] === board[0][col] && board[0][col] !== ""))
-      });
+      return columns.some(col => board.every(row => (row[col] === board[0][col] && board[0][col] !== "")));
     };
 
     if (checkForHorizontalWin() || checkForVerticalWin()) {
       console.log("SOMEONE WON");
+      return;
     }
 
     console.log(`${currentPlayer.name} turn!`);
