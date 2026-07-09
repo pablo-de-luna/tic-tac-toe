@@ -31,15 +31,53 @@ const gameboard = (() => {
   return {getBoard, addPlayerMark, restartBoard};
 })();
 
-const gameflow = (() => {
+const gameControl = (() => {
   const {player1, player2} = createPlayers("Pablo", "Dutch");
   let currentPlayer = player1;
 
+  console.table(gameboard.getBoard())
+  console.log(`${currentPlayer.name} turn!`)
+
+
+  // MAYBE, INSTEAD OF TARGETING CELLS WITH ROW AND COLUMN COORDS,
+  // GIVE EACH ONE A NUMBER: 012 345 678
   const playTurn = (row, column) => {
+    const board = gameboard.getBoard();
+    if (board[row][column] !== "") {
+      console.log("Already taken, try other")
+      return;
+    }
+
     gameboard.addPlayerMark(currentPlayer, row, column);
     currentPlayer = (currentPlayer === player1) ? player2 : player1; 
+
+    console.table(gameboard.getBoard())
+    console.log(`${currentPlayer.name} turn!`)
   };
   
   return {playTurn};
 })();
 
+//POSSIBLE WINNING COMBINATIONS
+// 111,000,000 
+// 000,111,000 HORIZONTAL 
+// 000,000,111 
+
+// 100,100,100 
+// 010,010,010 VERTICAL
+// 001,001,001 
+
+// 100,010,001 DIAGONAL
+// 001,010,100 
+
+// CELL NUMBERS INSTEAD OF ROW/COLUMN COORDS
+// 012 
+// 345 HORIZONTAL
+// 678
+
+// 036
+// 147 VERTICAL
+// 258
+
+// 048 DIAGONAL
+// 245
