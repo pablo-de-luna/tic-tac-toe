@@ -18,14 +18,16 @@ const createPlayers = (player1Name = "player1", player2Name = "player2") => {
 const gameboard = (() => {
   const board = [
     ["", "", ""],
-    ["", "", ""],
+    ["X", "X", ""],
     ["", "", ""]
   ];
 
   const getBoard = () => board;
+  
   const addPlayerMark = (player, row, column) => {
     board[row][column] = player.mark;
   };
+
   const restartBoard = () => board.forEach(row => row.fill(""));
 
   return {getBoard, addPlayerMark, restartBoard};
@@ -40,25 +42,36 @@ const gameControl = (() => {
   console.log(`${currentPlayer.name} turn!`);
 
   const playTurn = (row, column) => {
+    const checkIfSpaceIsTaken = () => {
+      return (board[row][column] !== ""); 
+    };
 
-    if (board[row][column] !== "") {
+    if (checkIfSpaceIsTaken()) {
       console.log("Already taken, try other");
       return;
     };
-
+    
     gameboard.addPlayerMark(currentPlayer, row, column);
+
     currentPlayer = (currentPlayer === player1) ? player2 : player1; 
 
     console.table(gameboard.getBoard());
 
     const checkForHorizontalWin = () => {
-      board.forEach(row => {
-        if (row.every(space => (space === row[0] && space !== ""))) {
-          console.log("WIN");
-        }
+      return board.some(row => row.every(space => (space === row[0] && space !== "")));
+    };
+
+    const checkForVerticalWin = () => {
+      const columns = [0, 1, 2]
+      // Check if SOME column have EVERY row space marked with equal player mark
+      columns.some(col => {
+        board.every(row => (board[row][col] === board[0][col] && board[0][col] !== ""))
       });
     };
-    checkForHorizontalWin();
+
+    if (checkForHorizontalWin() || checkForVerticalWin()) {
+      console.log("SOMEONE WON");
+    }
 
     console.log(`${currentPlayer.name} turn!`);
   };
@@ -77,15 +90,3 @@ const gameControl = (() => {
 
 // 100,010,001 DIAGONAL
 // 001,010,100 
-
-// SPACE NUMBER INSTEAD OF ROW/COLUMN COORDS
-// 012 
-// 345 HORIZONTAL
-// 678
-
-// 036
-// 147 VERTICAL
-// 258
-
-// 048 DIAGONAL
-// 245
