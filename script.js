@@ -58,16 +58,28 @@ const gameControl = (() => {
     console.table(gameboard.getBoard());
 
     const checkForHorizontalWin = () => {
-      return board.some(row => row.every(space => (space === row[0] && space !== "")));
+      return board.some(row => {
+        row[0] !== "" && row.every(space => space === row[0])
+      });
     };
 
     const checkForVerticalWin = () => {
       const columns = [0, 1, 2];
       // Check if SOME column have EVERY row space marked with equal player mark
-      return columns.some(col => board.every(row => (row[col] === board[0][col] && board[0][col] !== "")));
+      return columns.some(col => {
+        board[0][col] !== "" && board.every(row => row[col] === board[0][col])
+      });
     };
 
-    if (checkForHorizontalWin() || checkForVerticalWin()) {
+    const checkForDiagonalWin = () => {
+      // middle must be filled and equal to both ends of a diagonal
+      return (board[1][1] !== "" && (
+        (board[0][0] === board[1][1] && board[2][2] === board[1][1]) ||
+        (board[2][0] === board[1][1] && board[0][2] === board[1][1])
+      ));
+    };
+
+    if (checkForHorizontalWin() || checkForVerticalWin() || checkForDiagonalWin()) {
       console.log("SOMEONE WON");
       return;
     }
