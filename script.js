@@ -33,26 +33,34 @@ const gameboard = (() => {
 
 const gameControl = (() => {
   const {player1, player2} = createPlayers("Pablo", "Dutch");
+  const board = gameboard.getBoard();
   let currentPlayer = player1;
 
-  console.table(gameboard.getBoard())
-  console.log(`${currentPlayer.name} turn!`)
+  console.table(gameboard.getBoard());
+  console.log(`${currentPlayer.name} turn!`);
 
-
-  // MAYBE, INSTEAD OF TARGETING CELLS WITH ROW AND COLUMN COORDS,
-  // GIVE EACH ONE A NUMBER: 012 345 678
   const playTurn = (row, column) => {
-    const board = gameboard.getBoard();
+
     if (board[row][column] !== "") {
-      console.log("Already taken, try other")
+      console.log("Already taken, try other");
       return;
-    }
+    };
 
     gameboard.addPlayerMark(currentPlayer, row, column);
     currentPlayer = (currentPlayer === player1) ? player2 : player1; 
 
-    console.table(gameboard.getBoard())
-    console.log(`${currentPlayer.name} turn!`)
+    console.table(gameboard.getBoard());
+
+    const checkForHorizontalWin = () => {
+      board.forEach(row => {
+        if (row.every(space => (space === row[0] && space !== ""))) {
+          console.log("WIN");
+        }
+      });
+    };
+    checkForHorizontalWin();
+
+    console.log(`${currentPlayer.name} turn!`);
   };
   
   return {playTurn};
@@ -70,7 +78,7 @@ const gameControl = (() => {
 // 100,010,001 DIAGONAL
 // 001,010,100 
 
-// CELL NUMBERS INSTEAD OF ROW/COLUMN COORDS
+// SPACE NUMBER INSTEAD OF ROW/COLUMN COORDS
 // 012 
 // 345 HORIZONTAL
 // 678
