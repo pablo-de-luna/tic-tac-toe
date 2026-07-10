@@ -2,6 +2,7 @@
 
 "use strict"
 
+// MOVE THIS FUNCTION INSIDE A FACTORY AS A METHOD
 const createPlayers = (player1Name = "player1", player2Name = "player2") => {
   return {
     player1: {
@@ -18,72 +19,75 @@ const createPlayers = (player1Name = "player1", player2Name = "player2") => {
 const gameboard = (() => {
   const board = [
     ["", "", ""],
-    ["X", "X", ""],
+    ["", "", ""],
     ["", "", ""]
   ];
 
   const getBoard = () => board;
-  
+
+  // MAYBE MOVE THIS METHOD TO ANOTHER FACTORY
   const addPlayerMark = (player, row, column) => {
     board[row][column] = player.mark;
   };
 
   const restartBoard = () => board.forEach(row => row.fill(""));
-
+  
   return {getBoard, addPlayerMark, restartBoard};
 })();
 
+// RETHINK RENAMING OR SPLITING THIS FACTORY, PUT EACH METHOD IN A LOGICAL PLACE
 const gameControl = (() => {
+  // MAYBE CHANGE PLAYERS DECLARATION TO GAMEBOARD OR MAKE IT ACCESIBLE AS A METHOD
   const {player1, player2} = createPlayers("Pablo", "Dutch");
   const board = gameboard.getBoard();
   let currentPlayer = player1;
 
-  console.table(gameboard.getBoard());
-  console.log(`${currentPlayer.name} turn!`);
-
-  const playTurn = (row, column) => {
-    const checkIfSpaceIsTaken = () => {
-      return (board[row][column] !== ""); 
-    };
-
-    if (checkIfSpaceIsTaken()) {
-      console.log("Already taken, try other");
-      return;
-    };
-    
-    gameboard.addPlayerMark(currentPlayer, row, column);
-
-    currentPlayer = (currentPlayer === player1) ? player2 : player1; 
-
-    console.table(gameboard.getBoard());
-
-    const checkForHorizontalWin = () => {
+  //MAYBE THIS METHODS SHOULD BE IN GAMEBOARD
+  const getPlayer1 = () => player1;
+  const getPlayer2 = () => player2;
+  const getCurrentPlayer = () => currentPlayer;
+  
+  const checkForWinCondition = () => {
+    const checkForRowWin = () => {
       return board.some(row => row.every(space => (space === row[0] && space !== "")));
     };
 
-    const checkForVerticalWin = () => {
+    const checkForColumnWin = () => {
       const columns = [0, 1, 2];
-      // Check if SOME column have EVERY row space marked with equal player mark
-      return columns.some(col => board.every(row => (row[col] === board[0][col] && board[0][col] !== "")));
+      // This check if SOME column have EVERY row space marked with equal player mark
+      return columns.some(col => { 
+        return board.every(row => (row[col] === board[0][col] && board[0][col] !== ""))
+      });
     };
 
     const checkForDiagonalWin = () => {
-      // middle must be filled and equal to both ends of a diagonal
       return (board[1][1] !== "" && (
         (board[0][0] === board[1][1] && board[2][2] === board[1][1]) ||
         (board[2][0] === board[1][1] && board[0][2] === board[1][1])
       ));
     };
 
-    if (checkForHorizontalWin() || checkForVerticalWin() || checkForDiagonalWin()) {
-      console.log("SOMEONE WON");
-      return;
-    }
+    return (checkForRowWin() || checkForColumnWin() || checkForDiagonalWin());
+  };
 
-    console.log(`${currentPlayer.name} turn!`);
+  const checkIfSpaceIsTaken = (row, column) => {
+    return (board[row][column] !== ""); 
+  };
+
+  // REFACTOR AND DO THIS FUNCTION
+  const playTurn = (row, column) => {
+    gameboard.addPlayerMark(currentPlayer, row, column);
+
+    currentPlayer = (currentPlayer === player1) ? player2 : player1; 
   };
   
-  return {playTurn};
+  return {
+    getCurrentPlayer,
+    getPlayer1,
+    getPlayer2,
+    checkForWinCondition,
+    checkIfSpaceIsTaken
+  };
 })();
 
 //POSSIBLE WINNING COMBINATIONS
