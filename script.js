@@ -34,14 +34,8 @@ const gameControl = (() => {
   const {player1, player2} = players.getPlayers();
   let currentPlayer = player1;
 
-  players.setPlayersName("Pablo", "Dutch")
-  console.table(players.getPlayers())
-  console.table({player1, player2})
-
-  const getPlayer1 = () => player1;
-  const getPlayer2 = () => player2;
   const getCurrentPlayer = () => currentPlayer;
-  
+
   const checkForWinCondition = () => {
     const checkForRowWin = () => {
       return board.some(row => row.every(space => (space === row[0] && space !== "")));
@@ -67,18 +61,29 @@ const gameControl = (() => {
     return (board[row][column] !== ""); 
   };
 
+  console.table(gameboard.getBoard())
+  console.log(`Is ${currentPlayer.name} turn`)
+
   // REFACTOR AND DO THIS FUNCTION
   const playTurn = (row, column) => {
-    gameboard.addPlayerMark(currentPlayer, row, column);
+    if (checkIfSpaceIsTaken(row, column)) console.log("Already taken, try again");
+    if (checkIfSpaceIsTaken(row, column)) return;
 
+    gameboard.addPlayerMark(currentPlayer, row, column);
     currentPlayer = (currentPlayer === player1) ? player2 : player1; 
+
+    console.table(gameboard.getBoard());
+
+    if (checkForWinCondition()) console.log(`${currentPlayer.name} WON!!!`);
+    if (checkForWinCondition()) return;
+
+    console.log(`Is ${currentPlayer.name} turn`)
   };
   
   return {
     getCurrentPlayer,
-    getPlayer1,
-    getPlayer2,
     checkForWinCondition,
-    checkIfSpaceIsTaken
+    checkIfSpaceIsTaken,
+    playTurn,
   };
 })();
