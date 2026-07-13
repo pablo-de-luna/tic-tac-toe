@@ -57,6 +57,10 @@ const gameControl = (() => {
     return (checkForRowWin() || checkForColumnWin() || checkForDiagonalWin());
   };
 
+  const checkForDraw = () => {
+    return (board.every(row => row.every(space => space !== "")) && !checkForWinCondition());
+  };
+
   const checkIfSpaceIsTaken = (row, column) => {
     return (board[row][column] !== ""); 
   };
@@ -64,7 +68,6 @@ const gameControl = (() => {
   console.table(gameboard.getBoard())
   console.log(`Is ${currentPlayer.name} turn`)
 
-  // REFACTOR AND DO THIS FUNCTION
   const playTurn = (row, column) => {
     if (checkIfSpaceIsTaken(row, column)) console.log("Already taken, try again");
     if (checkIfSpaceIsTaken(row, column)) return;
@@ -77,12 +80,16 @@ const gameControl = (() => {
     if (checkForWinCondition()) console.log(`${currentPlayer.name} WON!!!`);
     if (checkForWinCondition()) return;
 
+    if (checkForDraw) console.log("IT'S A DRAW");
+    if (checkForDraw) return;
+
     console.log(`Is ${currentPlayer.name} turn`)
   };
   
   return {
     getCurrentPlayer,
     checkForWinCondition,
+    checkForDraw,
     checkIfSpaceIsTaken,
     playTurn,
   };
