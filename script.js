@@ -80,8 +80,8 @@ const gameControl = (() => {
     if (checkForWinCondition()) console.log(`${currentPlayer.name} WON!!!`);
     if (checkForWinCondition()) return;
 
-    if (checkForDraw) console.log("IT'S A DRAW");
-    if (checkForDraw) return;
+    if (checkForDraw()) console.log("IT'S A DRAW");
+    if (checkForDraw()) return;
 
     console.log(`Is ${currentPlayer.name} turn`)
   };
