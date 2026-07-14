@@ -1,3 +1,15 @@
+@font-face {
+  font-family: "DarumadropOne";
+  src: 
+    url(./assets/fonts/darumadropOne/DarumadropOne-Regular.woff) format("woff"),
+    url(./assets/fonts/darumadropOne/DarumadropOne-Regular.woff2) format("woff2");
+}
+
+:root {
+  --fallback-font-stack:
+    system-ui, -apple-system, BlinkMacSystemFont,'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
 
 /* CUSTOM CSS RESET */
 
@@ -47,9 +59,9 @@ h1, h2, h3, h4, h5, h6 {
 /* END OF CUSTOM CSS RESET */
 
 /* Temporal borders */
-body * {
+/* body * {
   border: 1px dotted grey;
-}
+} */
 
 body {
   background-color: #00445a;
@@ -59,6 +71,32 @@ body {
 /* hidden temporarily */
 #win-line {
   display: none;
+}
+
+#title {
+  font-family: "DarumadropOne", var(--fallback-font-stack);
+  color: #d8cdbe;
+}
+
+#players-info {
+  display: flex;
+  justify-content: space-between;
+  width: 500px;
+  margin: auto;
+}
+
+#players-info div {
+  font-family: "DarumadropOne", var(--fallback-font-stack);
+  color: #d8cdbe;
+}
+
+.player-name {
+  width: 200px;
+  font-size: 1.5rem;
+}
+
+#turn-info {
+  width: 200px;
 }
 
 #gameboard-section {
@@ -71,8 +109,8 @@ body {
 #gameboard {
   position: absolute;
   z-index: -1;
-  width: 600px;
-  height: 600px;
+  min-width: 600px;
+  min-height: 600px;
 }
 
 #spaces-container {
