@@ -79,7 +79,6 @@ const gameControl = (() => {
 
     console.table(gameboard.getBoard());
 
-  // FIX SOMETHING HERE OR IN THE FUNCTION. IT SHOW "PLAYER 2 WON" WHEN PLAYER 1 WON
     if (checkForWinCondition()) console.log(`${currentPlayer.name} WON!!!`);
     if (checkForWinCondition()) return;
 
@@ -102,6 +101,7 @@ const gameControl = (() => {
 
 const displayControl = (() => {
   const spaces = document.querySelectorAll(".board-space");
+  const turnInfo = document.querySelector("#turn-info");
   const spacesCoords = [
     [0, 0], [0, 1], [0, 2],
     [1, 0], [1, 1], [1, 2],
@@ -130,8 +130,15 @@ const displayControl = (() => {
     spaces.forEach(space => space.addEventListener("click", () => {
       const [row, column] = space.dataset.coords.split(",")
 
-      handleMarkDisplayInSpace(space);
+      if (!gameControl.checkIfSpaceIsTaken(row, column)) {
+        handleMarkDisplayInSpace(space);
+      } else {
+        turnInfo.textContent = "ALREADY TAKEN, TRY AGAIN"
+        return;
+      }
+
       gameControl.playTurn(row, column);
+      turnInfo.textContent = `It's ${gameControl.getCurrentPlayer().name} turn`
     }));
   };
 
