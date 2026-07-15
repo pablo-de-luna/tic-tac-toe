@@ -112,22 +112,33 @@ const displayControl = (() => {
 
   for (let i = 0; i < spaces.length; i++) {
     spaces[i].dataset.coords = spacesCoords[i];
-  }
-  
-  spaces.forEach(space => space.addEventListener("click", () => {
+  };
+
+  const handleMarkDisplayInSpace = (space) => {
     const currentPlayer = gameControl.getCurrentPlayer();
 
     if (currentPlayer.mark === "X") {
       const xMarkImg = document.createElement("img");
       xMarkImg.src = "./assets/images/x-mark.png";
-      space.appendChild(xMarkImg)
-    };
-    if (currentPlayer.mark === "0") {
+      space.appendChild(xMarkImg);
+    } else {
       const oMarkImg = document.createElement("img");
       oMarkImg.src = "./assets/images/o-mark.png";
-      space.appendChild(oMarkImg)
+      space.appendChild(oMarkImg);
     };
+  };
+  
+  const handleSpaceClickEvent = () => {
+    spaces.forEach(space => space.addEventListener("click", () => {
 
-    gameControl.playTurn(space.dataset.coords);
-  }));
-})();;
+      handleMarkDisplayInSpace(space);
+      gameControl.playTurn(space.dataset.coords);
+    }));
+  };
+
+  return {handleSpaceClickEvent, }
+})();
+
+const initializeGame = (() => {
+  displayControl.handleSpaceClickEvent();
+})();
