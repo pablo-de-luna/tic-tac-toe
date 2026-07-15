@@ -77,6 +77,7 @@ const gameControl = (() => {
 
     console.table(gameboard.getBoard());
 
+  // FIX SOMETHING HERE OR IN THE FUNCTION. IT SHOW "PLAYER 2 WON" WHEN PLAYER 1 WON
     if (checkForWinCondition()) console.log(`${currentPlayer.name} WON!!!`);
     if (checkForWinCondition()) return;
 
