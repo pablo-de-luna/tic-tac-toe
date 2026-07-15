@@ -71,9 +71,7 @@ const gameControl = (() => {
   console.table(gameboard.getBoard())
   console.log(`Is ${currentPlayer.name} turn`)
 
-  const playTurn = (coordsString) => {
-    const [row, column] = coordsString.split(",");
-    
+  const playTurn = (row, column) => {
     if (checkIfSpaceIsTaken(row, column)) console.log("Already taken, try again");
     if (checkIfSpaceIsTaken(row, column)) return;
 
@@ -130,9 +128,10 @@ const displayControl = (() => {
   
   const handleSpaceClickEvent = () => {
     spaces.forEach(space => space.addEventListener("click", () => {
+      const [row, column] = space.dataset.coords.split(",")
 
       handleMarkDisplayInSpace(space);
-      gameControl.playTurn(space.dataset.coords);
+      gameControl.playTurn(row, column);
     }));
   };
 
