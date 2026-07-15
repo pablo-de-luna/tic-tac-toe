@@ -35,6 +35,10 @@ const gameControl = (() => {
   let currentPlayer = player1;
 
   const getCurrentPlayer = () => currentPlayer;
+  
+  const togglePlayer = () => {
+    currentPlayer = (currentPlayer === player1) ? player2 : player1; 
+  };
 
   const checkForWinCondition = () => {
     const checkForRowWin = () => {
@@ -82,15 +86,30 @@ const gameControl = (() => {
     if (checkForDraw()) console.log("IT'S A DRAW");
     if (checkForDraw()) return;
 
-    currentPlayer = (currentPlayer === player1) ? player2 : player1; 
+    togglePlayer();
     console.log(`Is ${currentPlayer.name} turn`)
   };
   
   return {
     getCurrentPlayer,
+    togglePlayer,
     checkForWinCondition,
     checkForDraw,
     checkIfSpaceIsTaken,
     playTurn,
   };
 })();
+
+const displayControl = (() => {
+  const spaces = document.querySelectorAll(".board-space");
+
+  spaces.forEach(space => space.addEventListener("click", () => {
+    const currentPlayer = gameControl.getCurrentPlayer();
+
+    if (currentPlayer.mark === "X") space.textContent = "X";
+    if (currentPlayer.mark === "0") space.textContent = "0";
+
+    gameControl.togglePlayer();
+    console.log(gameControl.getCurrentPlayer())
+  }));
+})();;
