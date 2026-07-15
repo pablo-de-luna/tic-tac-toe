@@ -42,7 +42,6 @@ const gameControl = (() => {
     };
     const checkForColumnWin = () => {
       const columns = [0, 1, 2];
-      // This check if SOME column have EVERY row space marked with equal player mark
       return columns.some(col => { 
         return board.every(row => (row[col] === board[0][col] && board[0][col] !== ""))
       });
@@ -73,7 +72,6 @@ const gameControl = (() => {
     if (checkIfSpaceIsTaken(row, column)) return;
 
     gameboard.addPlayerMark(currentPlayer, row, column);
-    currentPlayer = (currentPlayer === player1) ? player2 : player1; 
 
     console.table(gameboard.getBoard());
 
@@ -84,6 +82,7 @@ const gameControl = (() => {
     if (checkForDraw()) console.log("IT'S A DRAW");
     if (checkForDraw()) return;
 
+    currentPlayer = (currentPlayer === player1) ? player2 : player1; 
     console.log(`Is ${currentPlayer.name} turn`)
   };
   
