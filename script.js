@@ -117,8 +117,16 @@ const displayControl = (() => {
   spaces.forEach(space => space.addEventListener("click", () => {
     const currentPlayer = gameControl.getCurrentPlayer();
 
-    if (currentPlayer.mark === "X") space.textContent = "X";
-    if (currentPlayer.mark === "0") space.textContent = "0";
+    if (currentPlayer.mark === "X") {
+      const xMarkImg = document.createElement("img");
+      xMarkImg.src = "./assets/images/x-mark.png";
+      space.appendChild(xMarkImg)
+    };
+    if (currentPlayer.mark === "0") {
+      const oMarkImg = document.createElement("img");
+      oMarkImg.src = "./assets/images/o-mark.png";
+      space.appendChild(oMarkImg)
+    };
 
     gameControl.playTurn(space.dataset.coords);
   }));

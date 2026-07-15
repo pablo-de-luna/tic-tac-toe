@@ -133,3 +133,8 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.board-space > img {
+  height: 90px;
+  width: 90px;
+}
