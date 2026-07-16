@@ -79,7 +79,7 @@ const gameControl = (() => {
 
     console.table(gameboard.getBoard());
 
-    if (checkForWinCondition()) console.log(`${currentPlayer.name} WON!!!`);
+    if (checkForWinCondition()) console.log(`${currentPlayer.name} WINS!!!`);
     if (checkForWinCondition()) return;
 
     if (checkForDraw()) console.log("IT'S A DRAW");
@@ -129,20 +129,31 @@ const displayControl = (() => {
   const handleSpaceClickEvent = () => {
     spaces.forEach(space => space.addEventListener("click", () => {
       const [row, column] = space.dataset.coords.split(",")
+      const currentPlayerName = gameControl.getCurrentPlayer().name;
 
       if (!gameControl.checkIfSpaceIsTaken(row, column)) {
         handleMarkDisplayInSpace(space);
       } else {
-        turnInfo.textContent = "ALREADY TAKEN, TRY AGAIN"
+        turnInfo.textContent = "ALREADY TAKEN, TRY AGAIN";
         return;
       }
 
       gameControl.playTurn(row, column);
-      turnInfo.textContent = `It's ${gameControl.getCurrentPlayer().name} turn`
+
+      if (gameControl.checkForWinCondition()) {
+        turnInfo.textContent = `${currentPlayerName} wins!`;
+        return;
+      }
+      if (gameControl.checkForDraw()) {
+        turnInfo.textContent = "It's a Draw";
+        return;
+      }
+
+      turnInfo.textContent = `It's ${currentPlayerName} turn`
     }));
   };
 
-  return {handleSpaceClickEvent, }
+  return {handleSpaceClickEvent}
 })();
 
 const initializeGame = (() => {
