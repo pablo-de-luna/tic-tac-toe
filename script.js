@@ -33,6 +33,7 @@ const gameControl = (() => {
   const board = gameboard.getBoard();
   const {player1, player2} = players.getPlayers();
   let currentPlayer = player1;
+  let gameoverStatus = false;
 
   const getCurrentPlayer = () => currentPlayer;
   
@@ -68,33 +69,48 @@ const gameControl = (() => {
     return (board[row][column] !== ""); 
   };
 
-  console.table(gameboard.getBoard())
-  console.log(`Is ${currentPlayer.name} turn`)
+  const handleGameoverStatus = () => {
+    if (checkForDraw() || checkForWinCondition()) {
+      gameoverStatus = true;
+    };
+    return gameoverStatus;
+  };
+  const getGameoverStatus = () => gameoverStatus;
+  const setGameoverStatus = (status) => gameoverStatus = status;
 
   const playTurn = (row, column) => {
-    if (checkIfSpaceIsTaken(row, column)) console.log("Already taken, try again");
-    if (checkIfSpaceIsTaken(row, column)) return;
-
     gameboard.addPlayerMark(currentPlayer, row, column);
-
-    console.table(gameboard.getBoard());
-
-    if (checkForWinCondition()) console.log(`${currentPlayer.name} WINS!!!`);
-    if (checkForWinCondition()) return;
-
-    if (checkForDraw()) console.log("IT'S A DRAW");
-    if (checkForDraw()) return;
-
+    handleGameoverStatus();
+    console.log("GAMEOVER = " + handleGameoverStatus())
     togglePlayer();
-    console.log(`Is ${currentPlayer.name} turn`)
   };
+  
+  // LOG GAME IN THE CONSOLE
+  // console.table(gameboard.getBoard())
+  // console.log(`Is ${currentPlayer.name} turn`)
+
+  // const playTurn = (row, column) => {
+  //   if (checkIfSpaceIsTaken(row, column)) console.log("Already taken, try again");
+  //   if (checkIfSpaceIsTaken(row, column)) return;
+
+  //   gameboard.addPlayerMark(currentPlayer, row, column);
+
+  //   console.table(gameboard.getBoard());
+
+  //   if (checkForWinCondition()) console.log(`${currentPlayer.name} WINS`);
+
+  //   if (checkForDraw()) console.log("IT'S A DRAW");
+
+  //   togglePlayer();
+  //   console.log(`Is ${currentPlayer.name} turn`)
+  // };
   
   return {
     getCurrentPlayer,
-    togglePlayer,
     checkForWinCondition,
     checkForDraw,
     checkIfSpaceIsTaken,
+    getGameoverStatus,
     playTurn,
   };
 })();
@@ -107,6 +123,8 @@ const displayControl = (() => {
     [1, 0], [1, 1], [1, 2],
     [2, 0], [2, 1], [2, 2],
   ]
+
+  turnInfo.textContent = `It's ${gameControl.getCurrentPlayer().name} turn`;
 
   for (let i = 0; i < spaces.length; i++) {
     spaces[i].dataset.coords = spacesCoords[i];
@@ -129,9 +147,10 @@ const displayControl = (() => {
   const handleSpaceClickEvent = () => {
     spaces.forEach(space => space.addEventListener("click", () => {
       const [row, column] = space.dataset.coords.split(",")
-      const currentPlayerName = gameControl.getCurrentPlayer().name;
 
-      if (!gameControl.checkIfSpaceIsTaken(row, column)) {
+      if (gameControl.getGameoverStatus()) {
+        return;
+      } else if (!gameControl.checkIfSpaceIsTaken(row, column)) {
         handleMarkDisplayInSpace(space);
       } else {
         turnInfo.textContent = "ALREADY TAKEN, TRY AGAIN";
@@ -141,7 +160,7 @@ const displayControl = (() => {
       gameControl.playTurn(row, column);
 
       if (gameControl.checkForWinCondition()) {
-        turnInfo.textContent = `${currentPlayerName} wins!`;
+        turnInfo.textContent = `${gameControl.getCurrentPlayer().name} wins!`;
         return;
       }
       if (gameControl.checkForDraw()) {
@@ -149,7 +168,7 @@ const displayControl = (() => {
         return;
       }
 
-      turnInfo.textContent = `It's ${currentPlayerName} turn`
+      turnInfo.textContent = `It's ${gameControl.getCurrentPlayer().name} turn`
     }));
   };
 
