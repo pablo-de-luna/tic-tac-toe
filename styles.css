@@ -74,7 +74,7 @@ body {
   color: var(--color-1);
   text-align: center;
   font-size: 4rem;
-  margin-bottom: -50px;
+  margin-bottom: -45px;
 }
 
 #players-info {
@@ -114,9 +114,9 @@ body {
 
 #gameboard {
   position: absolute;
+  top: 0;
+  left: auto;
   z-index: -1;
-  min-width: 600px;
-  min-height: 600px;
 }
 
 #spaces-container {
@@ -137,4 +137,46 @@ body {
 .board-space > img {
   height: 90px;
   width: 90px;
+}
+
+#setup-game-section {
+  position: relative;
+  margin: auto;
+  height: 600px;
+  width: 600px;
+}
+
+#setup-names {
+  display: flex;
+  gap: 30px;
+  padding: 250px 70px 0;
+}
+
+#setup-names div {
+  flex: 1;
+  text-align: center;
+}
+
+#setup-game-section div:has(button) {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#setup-game-section button {
+  height: 40px;
+  width: 200px;
+}
+
+#setup-game-section img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
+}
+
+.hidden,
+.hidden * {
+  display: none;
+  visibility: hidden;
 }

@@ -88,19 +88,13 @@ const gameControl = (() => {
   // LOG GAME IN THE CONSOLE
   // console.table(gameboard.getBoard())
   // console.log(`Is ${currentPlayer.name} turn`)
-
   // const playTurn = (row, column) => {
   //   if (checkIfSpaceIsTaken(row, column)) console.log("Already taken, try again");
   //   if (checkIfSpaceIsTaken(row, column)) return;
-
   //   gameboard.addPlayerMark(currentPlayer, row, column);
-
   //   console.table(gameboard.getBoard());
-
   //   if (checkForWinCondition()) console.log(`${currentPlayer.name} WINS`);
-
   //   if (checkForDraw()) console.log("IT'S A DRAW");
-
   //   togglePlayer();
   //   console.log(`Is ${currentPlayer.name} turn`)
   // };
@@ -122,7 +116,7 @@ const displayControl = (() => {
     [0, 0], [0, 1], [0, 2],
     [1, 0], [1, 1], [1, 2],
     [2, 0], [2, 1], [2, 2],
-  ]
+  ];
 
   turnInfo.textContent = `It's ${gameControl.getCurrentPlayer().name} turn`;
 
@@ -172,7 +166,7 @@ const displayControl = (() => {
     }));
   };
 
-  return {handleSpaceClickEvent}
+  return {handleSpaceClickEvent};
 })();
 
 const initializeGame = (() => {
