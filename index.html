@@ -11,8 +11,11 @@
   <h1 id="title">TIC TAC <em>TOP</em></h1>
   <section id="setup-game-section" class="visible">
     <div id="setup-names">
-      <div>PLAYER 1</div>
-      <div>PLAYER 2</div>
+      <input type="text" id="player1-name" maxlength="15" pattern="[a-zA-Z]+" placeholder="PLAYER 1">
+      <input type="text" id="player2-name" maxlength="15" pattern="[a-zA-Z]+" placeholder="PLAYER 2">
+    </div>
+    <div id="edit-players-info">
+      <p>CHANGE PLAYERS NAME</p>
     </div>
     <div>
       <button type="button">PLAY</button>

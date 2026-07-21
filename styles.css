@@ -148,24 +148,51 @@ body {
 
 #setup-names {
   display: flex;
-  gap: 30px;
-  padding: 250px 70px 0;
+  justify-content: center;
+  gap: 16px;
+  padding-top: 270px;
 }
 
-#setup-names div {
-  flex: 1;
+#setup-names input {
+  appearance: none;
+  border: none;
+  background-color: #d1c2b6;
+  border: 1px solid #d1c2b6;
+  font-family: "DarumadropOne", var(--fallback-font-stack);
+  border-radius: 10px;
   text-align: center;
+  width: 17ch;
+}
+
+#setup-names input:focus {
+  outline: none;
+  border: 1px solid #8a8077;
+}
+
+#edit-players-info {
+  display: flex;
+  justify-content: center;
+  font-family: "DarumadropOne", var(--fallback-font-stack);
+  color: #556c8d;
 }
 
 #setup-game-section div:has(button) {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
 }
 
 #setup-game-section button {
-  height: 40px;
-  width: 200px;
+  width: 250px;
+  padding-bottom: 20px;
+  font-size: 5rem;
+  font-family: "DarumadropOne", var(--fallback-font-stack);
+  background-color: #d9cbbf;
+  color: #1e1e1e;
+  border: none;
+}
+
+#setup-game-section button:hover {
+  color: #b6873b;
 }
 
 #setup-game-section img {
