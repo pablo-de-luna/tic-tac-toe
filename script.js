@@ -7,8 +7,8 @@ const players = (() => {
   const player2 = {name: "Player 2", mark: "0"};
 
   const setPlayersName = (player1Name, player2Name) => {
-    if (!player1Name) player1Name = "Player 1"
-    if (!player2Name) player2Name = "Player 2"
+    if (!player1Name || player1Name.trim().length === 0) player1Name = "Player 1"
+    if (!player2Name || player2Name.trim().length === 0) player2Name = "Player 2"
 
     player1.name = player1Name;
     player2.name = player2Name;
@@ -82,27 +82,12 @@ const gameControl = (() => {
   const getGameoverStatus = () => gameoverStatus;
   const setGameoverStatus = (status) => gameoverStatus = status;
 
-  // const playTurn = (row, column) => {
-  //   gameboard.addPlayerMark(currentPlayer, row, column);
-  //   handleGameoverStatus();
-  //   togglePlayer();
-  // };
-  
-  // LOG GAME IN THE CONSOLE
-  console.table(gameboard.getBoard())
-  console.log(`Is ${currentPlayer.name} turn`)
   const playTurn = (row, column) => {
-    if (checkIfSpaceIsTaken(row, column)) console.log("Already taken, try again");
-    if (checkIfSpaceIsTaken(row, column)) return;
     gameboard.addPlayerMark(currentPlayer, row, column);
-    console.table(gameboard.getBoard());
-    if (checkForWinCondition()) console.log(`${currentPlayer.name} WINS`);
-    if (checkForDraw()) console.log("IT'S A DRAW");
+    handleGameoverStatus();
     togglePlayer();
-    console.log(`Is ${currentPlayer.name} turn`)
-    console.log("GAMEOVER = " + handleGameoverStatus())
   };
-  
+
   return {
     getCurrentPlayer,
     getLastPlayer,
