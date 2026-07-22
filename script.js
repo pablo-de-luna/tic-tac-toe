@@ -110,6 +110,7 @@ const gameControl = (() => {
     checkForDraw,
     checkIfSpaceIsTaken,
     getGameoverStatus,
+    setGameoverStatus,
     playTurn,
   };
 })();
@@ -142,7 +143,7 @@ const displayControl = (() => {
   };
 
   const showFirstPlayerInTurnInfo = () => {
-    turnInfoDisplay.textContent = `It's ${gameControl.getCurrentPlayer().name} turn`;
+    turnInfoDisplay.textContent = `${gameControl.getCurrentPlayer().name} turn`;
   };
 
   const handleMenu = () => {
@@ -170,10 +171,12 @@ const displayControl = (() => {
 
     if (currentPlayer.mark === "X") {
       const xMarkImg = document.createElement("img");
+      xMarkImg.className = "mark-img"
       xMarkImg.src = "./assets/images/x-mark.png";
       space.appendChild(xMarkImg);
     } else {
       const oMarkImg = document.createElement("img");
+      oMarkImg.className = "mark-img"
       oMarkImg.src = "./assets/images/o-mark.png";
       space.appendChild(oMarkImg);
     };
@@ -189,7 +192,7 @@ const displayControl = (() => {
         handleMarkDisplayInSpace(space);
         turnInfoDisplay.className = "";
       } else {
-        turnInfoDisplay.textContent = "ALREADY TAKEN, TRY AGAIN";
+        turnInfoDisplay.textContent = "ALREADY TAKEN";
         turnInfoDisplay.className = "highlight";
         return;
       }
@@ -211,12 +214,28 @@ const displayControl = (() => {
     }));
   };
 
-  return {handleSpaceClickEvent, handleMenu, };
+  const resetGame = () => {
+    gameControl.setGameoverStatus(false);
+    gameboard.restartBoard();
+    spaces.forEach(space => space.innerHTML = "");
+    turnInfoDisplay.textContent = `${gameControl.getCurrentPlayer().name} turn`
+    turnInfoDisplay.className = "";
+  };
+  
+  const handleResetButton = () => {
+    const resetButton = document.querySelector("#play-again-button");
+
+    resetButton.addEventListener("click", () => {
+      resetGame();
+    });
+  };
+
+  return {handleSpaceClickEvent, handleMenu, handleResetButton};
 })();
 
 const initializeGame = (() => {
   displayControl.handleMenu();
-  // ADD RESET BUTTON FOR WHEN GAME IS OVER
   // ADD A GO TO MENU BUTTON
   displayControl.handleSpaceClickEvent();
+  displayControl.handleResetButton();
 })();

@@ -67,21 +67,21 @@ body {
   font-family: "DarumadropOne", var(--fallback-font-stack);
   color: var(--color-1);
   text-align: center;
-  font-size: 4rem;
-  margin-bottom: -45px;
+  font-size: 3rem;
+  margin-bottom: -35px;
 }
 
 #game-info {
   display: flex;
   height: 70px;
-  margin-top: -50px;
+  margin-top: -60px;
 }
 
 #players-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 550px;
+  width: 530px;
   margin: auto;
 }
 
@@ -91,7 +91,8 @@ body {
 }
 
 .player-name {
-  font-size: 1.2rem;
+  font-size: 1rem;
+  width: 140px;
 }
 
 #player1-name-info::before {
@@ -111,7 +112,7 @@ body {
 #turn-info {
   width: 200px;
   line-height: 1.5rem;
-  font-size: 2rem;
+  font-size: 1.8rem;
   text-align: center;
 }
 
