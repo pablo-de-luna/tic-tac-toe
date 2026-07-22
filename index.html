@@ -9,7 +9,7 @@
 </head>
 <body>
   <h1 id="title">TIC TAC <em>TOP</em></h1>
-  <section id="setup-game-section">
+  <section id="setup-game-section"> 
     <div id="setup-names">
       <input type="text" id="player1-name" maxlength="10" placeholder="Player 1">
       <input type="text" id="player2-name" maxlength="10" placeholder="Player 2">
@@ -37,12 +37,15 @@
     </div>
   </section>
   <section id="game-info" class="hidden">
-      <div id="players-info">
-        <div id="player1-name-info" class="player-name">PLAYER 1</div>
-        <div id="turn-info"></div>
-        <div id="player2-name-info" class="player-name">PLAYER 2</div>
-      </div>
+    <div id="players-info">
+      <div id="player1-name-info" class="player-name">PLAYER 1</div>
+      <div id="turn-info"></div>
+      <div id="player2-name-info" class="player-name">PLAYER 2</div>
+    </div>
+    <div id="game-buttons-container">
+      <button id="open-menu-button" type="button">GO TO MENU</button>
+      <button id="play-again-button" type="button">NEW GAME</button>
+    </div>
   </section>
-  <button id="play-again-button" type="button">PLAY AGAIN</button>
 </body>
 </html>

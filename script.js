@@ -159,8 +159,8 @@ const displayControl = (() => {
     playButton.addEventListener("click", ()=> {
       players.setPlayersName(player1NameInput.value, player2NameInput.value);
       menuDisplay.className = "hidden";
-      gameboardDisplay.className = "visible";
-      gameInfoDisplay.className = "visible";
+      gameboardDisplay.className = "";
+      gameInfoDisplay.className = "";
       showPlayersNameInGameInfo();
       showFirstPlayerInTurnInfo();
     });
@@ -224,18 +224,29 @@ const displayControl = (() => {
   
   const handleResetButton = () => {
     const resetButton = document.querySelector("#play-again-button");
+    resetButton.addEventListener("click", () => resetGame());
+  };
 
-    resetButton.addEventListener("click", () => {
+  const openMenu = () => {
+    menuDisplay.className = "";
+    gameboardDisplay.className = "hidden";
+    gameInfoDisplay.className = "hidden";
+  };
+
+  const handleMenuButton = () => {
+    const menuButton = document.querySelector("#open-menu-button");
+    menuButton.addEventListener("click", () => {
+      openMenu();
       resetGame();
     });
   };
 
-  return {handleSpaceClickEvent, handleMenu, handleResetButton};
+  return {handleSpaceClickEvent, handleMenu, handleResetButton, handleMenuButton};
 })();
 
 const initializeGame = (() => {
   displayControl.handleMenu();
-  // ADD A GO TO MENU BUTTON
+  displayControl.handleMenuButton();
   displayControl.handleSpaceClickEvent();
   displayControl.handleResetButton();
 })();
