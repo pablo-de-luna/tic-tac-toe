@@ -187,8 +187,10 @@ const displayControl = (() => {
         return;
       } else if (!gameControl.checkIfSpaceIsTaken(row, column)) {
         handleMarkDisplayInSpace(space);
+        turnInfoDisplay.className = "";
       } else {
         turnInfoDisplay.textContent = "ALREADY TAKEN, TRY AGAIN";
+        turnInfoDisplay.className = "highlight";
         return;
       }
 
@@ -196,14 +198,16 @@ const displayControl = (() => {
 
       if (gameControl.checkForWinCondition()) {
         turnInfoDisplay.textContent = `${gameControl.getLastPlayer().name} wins!`;
+        turnInfoDisplay.className = "highlight";
         return;
       }
       if (gameControl.checkForDraw()) {
         turnInfoDisplay.textContent = "It's a Draw";
+        turnInfoDisplay.className = "highlight";
         return;
       }
 
-      turnInfoDisplay.textContent = `It's ${gameControl.getCurrentPlayer().name} turn`
+      turnInfoDisplay.textContent = `${gameControl.getCurrentPlayer().name} turn`
     }));
   };
 
