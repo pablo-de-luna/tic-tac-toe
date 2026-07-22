@@ -126,12 +126,20 @@ const displayControl = (() => {
     [2, 0], [2, 1], [2, 2],
   ];
 
-  const asignDataCoords = () => {
+  const asignDataCoords = (() => {
     for (let i = 0; i < spaces.length; i++) {
       spaces[i].dataset.coords = spacesCoords[i];
     };
-  }
-  asignDataCoords();
+  })();
+
+  const showPlayersNameInGameInfo = () => {
+    const player1NameInfo = document.querySelector("#player1-name-info");
+    const player2NameInfo = document.querySelector("#player2-name-info");
+    const {player1, player2} = players.getPlayers();
+
+    player1NameInfo.textContent = player1.name; 
+    player2NameInfo.textContent = player2.name;
+  };
 
   const showFirstPlayerInTurnInfo = () => {
     turnInfoDisplay.textContent = `It's ${gameControl.getCurrentPlayer().name} turn`;
@@ -152,6 +160,7 @@ const displayControl = (() => {
       menuDisplay.className = "hidden";
       gameboardDisplay.className = "visible";
       gameInfoDisplay.className = "visible";
+      showPlayersNameInGameInfo();
       showFirstPlayerInTurnInfo();
     });
   };
@@ -203,7 +212,6 @@ const displayControl = (() => {
 
 const initializeGame = (() => {
   displayControl.handleMenu();
-  // UPDATE NAMES IN PLAYERS INFO
   // ADD RESET BUTTON FOR WHEN GAME IS OVER
   // ADD A GO TO MENU BUTTON
   displayControl.handleSpaceClickEvent();
