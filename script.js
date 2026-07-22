@@ -6,7 +6,10 @@ const players = (() => {
   const player1 = {name: "Player 1", mark: "X"};
   const player2 = {name: "Player 2", mark: "0"};
 
-  const setPlayersName = (player1Name = "Player 1", player2Name = "Player 2") => {
+  const setPlayersName = (player1Name, player2Name) => {
+    if (!player1Name) player1Name = "Player 1"
+    if (!player2Name) player2Name = "Player 2"
+
     player1.name = player1Name;
     player2.name = player2Name;
   };
@@ -78,26 +81,26 @@ const gameControl = (() => {
   const getGameoverStatus = () => gameoverStatus;
   const setGameoverStatus = (status) => gameoverStatus = status;
 
-  const playTurn = (row, column) => {
-    gameboard.addPlayerMark(currentPlayer, row, column);
-    handleGameoverStatus();
-    console.log("GAMEOVER = " + handleGameoverStatus())
-    togglePlayer();
-  };
+  // const playTurn = (row, column) => {
+  //   gameboard.addPlayerMark(currentPlayer, row, column);
+  //   handleGameoverStatus();
+  //   togglePlayer();
+  // };
   
   // LOG GAME IN THE CONSOLE
-  // console.table(gameboard.getBoard())
-  // console.log(`Is ${currentPlayer.name} turn`)
-  // const playTurn = (row, column) => {
-  //   if (checkIfSpaceIsTaken(row, column)) console.log("Already taken, try again");
-  //   if (checkIfSpaceIsTaken(row, column)) return;
-  //   gameboard.addPlayerMark(currentPlayer, row, column);
-  //   console.table(gameboard.getBoard());
-  //   if (checkForWinCondition()) console.log(`${currentPlayer.name} WINS`);
-  //   if (checkForDraw()) console.log("IT'S A DRAW");
-  //   togglePlayer();
-  //   console.log(`Is ${currentPlayer.name} turn`)
-  // };
+  console.table(gameboard.getBoard())
+  console.log(`Is ${currentPlayer.name} turn`)
+  const playTurn = (row, column) => {
+    if (checkIfSpaceIsTaken(row, column)) console.log("Already taken, try again");
+    if (checkIfSpaceIsTaken(row, column)) return;
+    gameboard.addPlayerMark(currentPlayer, row, column);
+    console.table(gameboard.getBoard());
+    if (checkForWinCondition()) console.log(`${currentPlayer.name} WINS`);
+    if (checkForDraw()) console.log("IT'S A DRAW");
+    togglePlayer();
+    console.log(`Is ${currentPlayer.name} turn`)
+    console.log("GAMEOVER = " + handleGameoverStatus())
+  };
   
   return {
     getCurrentPlayer,
@@ -110,18 +113,39 @@ const gameControl = (() => {
 })();
 
 const displayControl = (() => {
+  const menuDisplay = document.querySelector("#setup-game-section");
+  const gameboardDisplay = document.querySelector("#gameboard-section");
+  const gameInfoDisplay = document.querySelector("#game-info")
+  const turnInfoDisplay = document.querySelector("#turn-info");
   const spaces = document.querySelectorAll(".board-space");
-  const turnInfo = document.querySelector("#turn-info");
   const spacesCoords = [
     [0, 0], [0, 1], [0, 2],
     [1, 0], [1, 1], [1, 2],
     [2, 0], [2, 1], [2, 2],
   ];
 
-  turnInfo.textContent = `It's ${gameControl.getCurrentPlayer().name} turn`;
+// UPDATE THIS
+  turnInfoDisplay.textContent = `It's ${gameControl.getCurrentPlayer().name} turn`;
 
   for (let i = 0; i < spaces.length; i++) {
     spaces[i].dataset.coords = spacesCoords[i];
+  };
+
+  const handleMenu = () => {
+    const player1NameInput = document.querySelector("#player1-name");
+    const player2NameInput = document.querySelector("#player2-name");
+    const playButton = document.querySelector("#play-button");
+
+    player1NameInput.addEventListener("input", (e) => {
+      e.target.value = e.target.value.replace(/[^a-zA-Z0-9\s]/g, '');
+    });
+
+    playButton.addEventListener("click", ()=> {
+      players.setPlayersName(player1NameInput.value, player2NameInput.value);
+      menuDisplay.className = "hidden";
+      gameboardDisplay.className = "visible";
+      gameInfoDisplay.className = "visible";
+    });
   };
 
   const handleMarkDisplayInSpace = (space) => {
@@ -147,28 +171,33 @@ const displayControl = (() => {
       } else if (!gameControl.checkIfSpaceIsTaken(row, column)) {
         handleMarkDisplayInSpace(space);
       } else {
-        turnInfo.textContent = "ALREADY TAKEN, TRY AGAIN";
+        turnInfoDisplay.textContent = "ALREADY TAKEN, TRY AGAIN";
         return;
       }
 
       gameControl.playTurn(row, column);
 
+// GAME SHOWS WRONG WINNER
       if (gameControl.checkForWinCondition()) {
-        turnInfo.textContent = `${gameControl.getCurrentPlayer().name} wins!`;
+        turnInfoDisplay.textContent = `${gameControl.getCurrentPlayer().name} wins!`;
         return;
       }
       if (gameControl.checkForDraw()) {
-        turnInfo.textContent = "It's a Draw";
+        turnInfoDisplay.textContent = "It's a Draw";
         return;
       }
 
-      turnInfo.textContent = `It's ${gameControl.getCurrentPlayer().name} turn`
+      turnInfoDisplay.textContent = `It's ${gameControl.getCurrentPlayer().name} turn`
     }));
   };
 
-  return {handleSpaceClickEvent};
+  return {handleSpaceClickEvent, handleMenu};
 })();
 
 const initializeGame = (() => {
+  displayControl.handleMenu();
+  // UPDATE NAMES IN PLAYERS INFO
+  // ADD RESET BUTTON FOR WHEN GAME IS OVER
+  // ADD A GO TO MENU BUTTON
   displayControl.handleSpaceClickEvent();
 })();
