@@ -124,11 +124,15 @@ const displayControl = (() => {
     [2, 0], [2, 1], [2, 2],
   ];
 
-// UPDATE THIS
-  turnInfoDisplay.textContent = `It's ${gameControl.getCurrentPlayer().name} turn`;
+  const asignDataCoords = () => {
+    for (let i = 0; i < spaces.length; i++) {
+      spaces[i].dataset.coords = spacesCoords[i];
+    };
+  };
+  asignDataCoords();
 
-  for (let i = 0; i < spaces.length; i++) {
-    spaces[i].dataset.coords = spacesCoords[i];
+  const showFirstPlayerInTurnInfo = () => {
+    turnInfoDisplay.textContent = `It's ${gameControl.getCurrentPlayer().name} turn`;
   };
 
   const handleMenu = () => {
@@ -136,6 +140,7 @@ const displayControl = (() => {
     const player2NameInput = document.querySelector("#player2-name");
     const playButton = document.querySelector("#play-button");
 
+    // this prevent user write symbols or weird characters 
     player1NameInput.addEventListener("input", (e) => {
       e.target.value = e.target.value.replace(/[^a-zA-Z0-9\s]/g, '');
     });
@@ -145,6 +150,7 @@ const displayControl = (() => {
       menuDisplay.className = "hidden";
       gameboardDisplay.className = "visible";
       gameInfoDisplay.className = "visible";
+      showFirstPlayerInTurnInfo();
     });
   };
 
@@ -191,7 +197,7 @@ const displayControl = (() => {
     }));
   };
 
-  return {handleSpaceClickEvent, handleMenu};
+  return {handleSpaceClickEvent, handleMenu, };
 })();
 
 const initializeGame = (() => {
