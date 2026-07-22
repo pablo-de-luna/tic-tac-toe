@@ -39,7 +39,8 @@ const gameControl = (() => {
   let gameoverStatus = false;
 
   const getCurrentPlayer = () => currentPlayer;
-  
+  const getLastPlayer = () => (currentPlayer === player1) ? player2 : player1;
+
   const togglePlayer = () => {
     currentPlayer = (currentPlayer === player1) ? player2 : player1; 
   };
@@ -104,6 +105,7 @@ const gameControl = (() => {
   
   return {
     getCurrentPlayer,
+    getLastPlayer,
     checkForWinCondition,
     checkForDraw,
     checkIfSpaceIsTaken,
@@ -128,7 +130,7 @@ const displayControl = (() => {
     for (let i = 0; i < spaces.length; i++) {
       spaces[i].dataset.coords = spacesCoords[i];
     };
-  };
+  }
   asignDataCoords();
 
   const showFirstPlayerInTurnInfo = () => {
@@ -183,9 +185,8 @@ const displayControl = (() => {
 
       gameControl.playTurn(row, column);
 
-// GAME SHOWS WRONG WINNER
       if (gameControl.checkForWinCondition()) {
-        turnInfoDisplay.textContent = `${gameControl.getCurrentPlayer().name} wins!`;
+        turnInfoDisplay.textContent = `${gameControl.getLastPlayer().name} wins!`;
         return;
       }
       if (gameControl.checkForDraw()) {
