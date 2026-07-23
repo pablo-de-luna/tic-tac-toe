@@ -103,8 +103,10 @@ const gameControl = (() => {
 const displayControl = (() => {
   const menuDisplay = document.querySelector("#setup-game-section");
   const gameboardDisplay = document.querySelector("#gameboard-section");
-  const gameInfoDisplay = document.querySelector("#game-info")
+  const gameInfoDisplay = document.querySelector("#game-info");
   const turnInfoDisplay = document.querySelector("#turn-info");
+  const winModal = document.querySelector("#win-modal");
+  const winModalPlayer = document.querySelector("#win-modal-player");
   const spaces = document.querySelectorAll(".board-space");
   const spacesCoords = [
     [0, 0], [0, 1], [0, 2],
@@ -185,7 +187,9 @@ const displayControl = (() => {
       gameControl.playTurn(row, column);
 
       if (gameControl.checkForWinCondition()) {
-        turnInfoDisplay.textContent = `${gameControl.getLastPlayer().name} wins!`;
+        winModalPlayer.textContent = gameControl.getLastPlayer().name;
+        winModal.className = "";
+        turnInfoDisplay.textContent = "GAME OVER";
         turnInfoDisplay.className = "highlight";
         return;
       }
@@ -205,6 +209,7 @@ const displayControl = (() => {
     spaces.forEach(space => space.innerHTML = "");
     turnInfoDisplay.textContent = `${gameControl.getCurrentPlayer().name} turn`
     turnInfoDisplay.className = "";
+    winModal.className = "hidden";
   };
   
   const handleResetButton = () => {
