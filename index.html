@@ -8,7 +8,7 @@
   <script defer src="./script.js"></script>
 </head>
 <body>
-  <section id="setup-game-section" class="hidden"> 
+  <section id="setup-game-section" class="visible"> 
     <div id="setup-names">
       <input type="text" id="player1-name" maxlength="10" placeholder="Player 1">
       <input type="text" id="player2-name" maxlength="10" placeholder="Player 2">
@@ -21,7 +21,7 @@
     </div>
     <img src="./assets/images/setup-bg.png" height="600" width="600">
   </section>
-  <section id="gameboard-section" class="vis">
+  <section id="gameboard-section" class="hidden">
     <div id="win-modal" class="hidden">
       <div id="win-modal-player">PLAYER 1</div>
       <div>WINS!</div>
@@ -39,7 +39,7 @@
       <div class="board-space"></div>
     </div>
   </section>
-  <section id="game-info" class="vis">
+  <section id="game-info" class="hidden">
     <div id="players-info">
       <div id="player1-name-info" class="player-name">PLAYER 1</div>
       <div id="turn-info"></div>
